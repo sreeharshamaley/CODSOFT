@@ -1,0 +1,82 @@
+#include <iostream>
+#include <map>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+class UniqueStudentGradeManager {
+public:
+    void addUniqueStudent(const string& name, double grade) {
+        students[name] = grade;
+    }
+
+    double calculateUniqueAverage() {
+        if (students.empty()) {
+            return 0.0;
+        }
+
+        double total = 0.0;
+        for (const auto& pair : students) {
+            total += pair.second;
+        }
+        return total / students.size();
+    }
+
+    double getUniqueHighestGrade() {
+        if (students.empty()) {
+            return 0.0;
+        }
+
+        double highest = students.begin()->second;
+        for (const auto& pair : students) {
+            highest = max(highest, pair.second);
+        }
+        return highest;
+    }
+
+    double getUniqueLowestGrade() {
+        if (students.empty()) {
+            return 0.0;
+        }
+
+        double lowest = students.begin()->second;
+        for (const auto& pair : students) {
+            lowest = min(lowest, pair.second);
+        }
+        return lowest;
+    }
+
+    void displayUniqueStatistics() {
+        cout << "Unique Student Grade Statistics:" << endl;
+        cout << "-------------------------------" << endl;
+
+        if (students.empty()) {
+            cout << "No unique students added." << endl;
+            return;
+        }
+
+        for (const auto& pair : students) {
+            cout << pair.first << ": " << pair.second << endl;
+        }
+
+        cout << "-------------------------------" << endl;
+        cout << "Unique Average Grade: " << calculateUniqueAverage() << endl;
+        cout << "Unique Highest Grade: " << getUniqueHighestGrade() << endl;
+        cout << "Unique Lowest Grade: " << getUniqueLowestGrade() << endl;
+    }
+
+private:
+    map<string, double> students;
+};
+
+int main() {
+    UniqueStudentGradeManager uniqueGradeManager;
+
+    while (true) {
+        cout << "Unique Student Grade Manager" << endl;
+        cout << "1. Add Unique Student" << endl;
+        cout << "2. Display Unique Statistics" << endl;
+        cout << "3. Exit" << endl;
+
+        char choice;
+       
