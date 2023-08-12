@@ -1,0 +1,70 @@
+#include <iostream>
+#include <string>
+#include <thread>
+#include <chrono>
+using namespace std;
+
+class FunkyCalculator {
+public:
+    void start() {
+        cout << "🎩 Welcome to the Funky Calculator! 🎩" << endl;
+        cout << "Get ready to groove with numbers!" << endl;
+
+        double num1, num2;
+        char operation;
+
+        cout << "First number: ";
+        cin >> num1;
+
+        cout << "Pick an operation: (+, -, *, /): ";
+        cin >> operation;
+
+        cout << "Second number: ";
+        cin >> num2;
+
+        cout << "Calculating ";
+        animateLoading();
+
+        cout << endl << "Ta-da! The funky result is: ";
+
+        switch (operation) {
+            case '+':
+                cout << num1 + num2;
+                break;
+            case '-':
+                cout << num1 - num2;
+                break;
+            case '*':
+                cout << num1 * num2;
+                break;
+            case '/':
+                if (num2 != 0) {
+                    cout << num1 / num2;
+                } else {
+                    cout << "Oops, dividing by zero isn't groovy!";
+                }
+                break;
+            default:
+                cout << "Oops, looks like that move isn't in our dance routine!";
+        }
+
+        cout << endl << "Thanks for grooving with the Funky Calculator. Keep it cool!" << endl;
+    }
+
+private:
+    void animateLoading() {
+        string animation = "|/-\\";
+        for (int i = 0; i < 5; ++i) {
+            cout << animation[i % 4] << "\b";
+            cout.flush();
+            this_thread::sleep_for(chrono::milliseconds(500));
+        }
+    }
+};
+
+int main() {
+    FunkyCalculator calculator;
+    calculator.start();
+
+    return 0;
+}
