@@ -1,0 +1,128 @@
+#include <iostream>
+#include <vector>
+#include <map>
+#include <algorithm>
+using namespace std;
+
+class MovieTicketBooking {
+public:
+    MovieTicketBooking() {
+        initializeSeats();
+    }
+
+    void showMovies() {
+        cout << "🍿 Welcome to the Movie Ticket Booking System! 🎬" << endl;
+        cout << "Available Movies:" << endl;
+        cout << "1. Starry Skies: A Galactic Adventure" << endl;
+        cout << "2. Enchanted Forest: Mystical Journey" << endl;
+        cout << "3. Time Travelers: Chrono Quest" << endl;
+        cout << "4. Ocean Odyssey: Secrets of the Deep" << endl;
+        cout << "5. Cyber Sleuths: Digital Intrigue" << endl;
+    }
+
+    void displaySeats() {
+        cout << "Seating Arrangement:" << endl;
+        cout << "   ";
+        for (int col = 1; col <= COLUMNS; ++col) {
+            cout << col << " ";
+        }
+        cout << endl;
+
+        for (int row = 0; row < ROWS; ++row) {
+            char rowLabel = 'A' + row;
+            cout << rowLabel << "  ";
+            for (int col = 0; col < COLUMNS; ++col) {
+                cout << (seats[row][col] ? "X " : "- ");
+            }
+            cout << endl;
+        }
+    }
+
+    void bookTicket() {
+        showMovies();
+        int movieChoice;
+        cout << "Enter the number of the movie you want to watch: ";
+        cin >> movieChoice;
+
+        if (movieChoice < 1 || movieChoice > 5) {
+            cout << "Invalid movie selection." << endl;
+            return;
+        }
+
+        displaySeats();
+        char row;
+        int col;
+        cout << "Enter the row (A-E) and column (1-10) of your chosen seat: ";
+        cin >> row >> col;
+
+        if (!isValidSeat(row, col)) {
+            cout << "Invalid seat selection." << endl;
+            return;
+        }
+
+        if (seats[row - 'A'][col - 1]) {
+            cout << "Sorry, the seat is already booked." << endl;
+            return;
+        }
+
+        seats[row - 'A'][col - 1] = true;
+        string movieTitle = getMovieTitle(movieChoice);
+        cout << "Booking successful!" << endl;
+        cout << "You have booked seat " << row << col << " for " << movieTitle << "." << endl;
+    }
+
+private:
+    const int ROWS = 5;
+    const int COLUMNS = 10;
+    vector<vector<bool>> seats;
+
+    void initializeSeats() {
+        seats.resize(ROWS, vector<bool>(COLUMNS, false));
+    }
+
+    bool isValidSeat(char row, int col) {
+        return row >= 'A' && row <= 'E' && col >= 1 && col <= COLUMNS;
+    }
+
+    string getMovieTitle(int movieChoice) {
+        static map<int, string> movieTitles = {
+            {1, "Starry Skies: A Galactic Adventure"},
+            {2, "Enchanted Forest: Mystical Journey"},
+            {3, "Time Travelers: Chrono Quest"},
+            {4, "Ocean Odyssey: Secrets of the Deep"},
+            {5, "Cyber Sleuths: Digital Intrigue"}
+        };
+        return movieTitles[movieChoice];
+    }
+};
+
+int main() {
+    MovieTicketBooking ticketSystem;
+
+    while (true) {
+        cout << "Movie Ticket Booking System" << endl;
+        cout << "1. View Movies" << endl;
+        cout << "2. Book a Ticket" << endl;
+        cout << "3. Exit" << endl;
+
+        int choice;
+        cout << "Enter your choice (1/2/3): ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                ticketSystem.showMovies();
+                break;
+            case 2:
+                ticketSystem.bookTicket();
+                break;
+            case 3:
+                cout << "Exiting the program." << endl;
+                return 0;
+            default:
+                cout << "Invalid choice. Please select 1, 2, or 3." << endl;
+        }
+    }
+
+    return 0;
+}
