@@ -1,0 +1,51 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+#include <algorithm>
+#include <iterator>
+using namespace std;
+
+class UniqueWordCounter {
+public:
+    int countUniqueWordsInFile(const string& filename) {
+        ifstream file(filename);
+        if (!file.is_open()) {
+            cout << "Error: Unable to access the designated file." << endl;
+            return -1;
+        }
+
+        string line;
+        int wordCount = 0;
+        while (getline(file, line)) {
+            stringstream ss(line);
+            wordCount += distance(istream_iterator<string>(ss), istream_iterator<string>());
+        }
+
+        file.close();
+        return wordCount;
+    }
+
+    void start() {
+        cout << "📚 Welcome to the Unique Word Counter! 📚" << endl;
+        cout << "Enter the name of the text file to analyze: ";
+
+        string filename;
+        cin >> filename;
+
+        int totalUniqueWords = countUniqueWordsInFile(filename);
+
+        if (totalUniqueWords >= 0) {
+            cout << "Total unique words in the file: " << totalUniqueWords << endl;
+        }
+
+        cout << "Thank you for using the Unique Word Counter. Keep reading and writing!" << endl;
+    }
+};
+
+int main() {
+    UniqueWordCounter wordCounter;
+    wordCounter.start();
+
+    return 0;
+}
